@@ -10,7 +10,7 @@
 // stub file .. replace it with your own DBFile.cc
 
 DBFile::DBFile () {
-
+    
 }
 
 int DBFile::Create (const char *f_path, fType f_type, void *startup) {
