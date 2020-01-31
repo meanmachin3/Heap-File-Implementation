@@ -6,14 +6,21 @@
 #include "ComparisonEngine.h"
 #include "DBFile.h"
 #include "Defs.h"
+#include <string.h>
+
 
 // stub file .. replace it with your own DBFile.cc
 
 DBFile::DBFile () {
-    
+    this->file = new File();
 }
 
 int DBFile::Create (const char *f_path, fType f_type, void *startup) {
+    // https://stackoverflow.com/questions/25549562/how-to-convert-const-char-to-char-in-c
+    
+    char *file_path = strdup(f_path);
+    this->file->Open(0, file_path);
+    return 1;
 }
 
 void DBFile::Load (Schema &f_schema, const char *loadpath) {
