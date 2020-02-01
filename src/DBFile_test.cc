@@ -5,9 +5,10 @@
 
 TEST(DBFile, Create) { 
     DBFile dbfile;
-    relation *rel;
     ASSERT_EQ(dbfile.Create(NULL, heap, NULL), 0);
-    ASSERT_EQ(dbfile.Create(rel->path(), heap, NULL), 1);   
+    dbfile.Create("test.bin", heap, NULL);
+    FILE* f = fopen("test.bin", "r");
+    ASSERT_TRUE(f != NULL);
 }
 
 TEST(DBFile, Load) { 

@@ -36,6 +36,9 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
 }
 
 int DBFile::Open (const char *f_path) {
+    if (f_path == NULL || f_path[0] == '\0') return 0;
+    this->file->Open(1, f_path);
+    return 1;
 }
 
 void DBFile::MoveFirst () {
