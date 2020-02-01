@@ -21,7 +21,8 @@ DBFile::~DBFile () {
 
 int DBFile::Create (const char *f_path, fType f_type, void *startup) {
 
-    //Check for invalid arguments
+    // Check for invalid arguments
+    // https://wiki.sei.cmu.edu/confluence/display/cplusplus/INT50-CPP.+Do+not+cast+to+an+out-of-range+enumeration+value
     if (f_path == NULL || f_type < heap || f_type > tree) {
         return 0;
     }
