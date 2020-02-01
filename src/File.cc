@@ -228,7 +228,7 @@ void File :: AddPage (Page *addMe, off_t whichPage) {
 }
 
 
-void File :: Open (int fileLen, char *fName) {
+void File :: Open (int fileLen, const char *fName) {
 
 	// figure out the flags for the system open call
         int mode;

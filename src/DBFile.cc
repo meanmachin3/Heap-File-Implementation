@@ -23,12 +23,12 @@ int DBFile::Create (const char *f_path, fType f_type, void *startup) {
 
     // Check for invalid arguments
     // https://wiki.sei.cmu.edu/confluence/display/cplusplus/INT50-CPP.+Do+not+cast+to+an+out-of-range+enumeration+value
-    if (f_path == NULL || f_type < heap || f_type > tree) {
+    if (f_path == NULL || f_path[0] == '\0' || f_type < heap || f_type > tree) {
         return 0;
     }
     // https://stackoverflow.com/questions/25549562/how-to-convert-const-char-to-char-in-c
-    char *file_path = strdup(f_path);
-    this->file->Open(0, file_path);
+    // char *file_path = strdup(f_path);
+    this->file->Open(0, f_path);
     return 1;
 }
 
