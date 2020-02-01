@@ -10,6 +10,38 @@ TEST(DBFile, Create) {
     ASSERT_EQ(dbfile.Create(rel->path(), heap, NULL), 1);   
 }
 
+TEST(DBFile, Load) { 
+    ASSERT_EQ(0, 0);
+    ASSERT_EQ(0, 0);   
+}
+
+TEST(DBFile, Open) { 
+    ASSERT_EQ(0, 0);
+    ASSERT_EQ(0, 0);   
+}
+
+TEST(DBFile, MoveFirst) { 
+    ASSERT_EQ(0, 0);
+    ASSERT_EQ(0, 0);   
+}
+
+TEST(DBFile, Close) { 
+    ASSERT_EQ(0, 0);
+    ASSERT_EQ(0, 0);   
+}
+
+
+TEST(DBFile, Add) { 
+    ASSERT_EQ(0, 0);
+    ASSERT_EQ(0, 0);   
+}
+
+
+TEST(DBFile, GetNext) { 
+    ASSERT_EQ(0, 0);
+    ASSERT_EQ(0, 0);   
+}
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
