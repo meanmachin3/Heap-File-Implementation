@@ -10,10 +10,11 @@
 
 typedef enum {heap, sorted, tree} fType;
 
-// stub DBFile header..replace it with your own DBFile.h 
-
 class DBFile {
 	File* file;
+    Page* page;
+    off_t current_page;
+    Record* head;
 
 public:
 	DBFile (); 

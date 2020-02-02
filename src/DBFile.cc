@@ -7,12 +7,16 @@
 #include "DBFile.h"
 #include "Defs.h"
 #include <string.h>
-
-
-// stub file .. replace it with your own DBFile.cc
+#include <iostream>
 
 DBFile::DBFile () {
+    // Added to stop the program execution, so that we can debug using CLion's attach to process option.
+    std::getchar();
+
     this->file = new File();
+    this->page = new Page();
+    this->current_page = 0;
+    this->head = NULL;
 }
 
 DBFile::~DBFile () {
@@ -20,19 +24,15 @@ DBFile::~DBFile () {
 }
 
 int DBFile::Create (const char *f_path, fType f_type, void *startup) {
-
-    // Check for invalid arguments
-    // https://wiki.sei.cmu.edu/confluence/display/cplusplus/INT50-CPP.+Do+not+cast+to+an+out-of-range+enumeration+value
     if (f_path == NULL || f_path[0] == '\0' || f_type < heap || f_type > tree) {
         return 0;
     }
-    // https://stackoverflow.com/questions/25549562/how-to-convert-const-char-to-char-in-c
-    // char *file_path = strdup(f_path);
+
     this->file->Open(0, f_path);
     return 1;
 }
 
-void DBFile::Load (Schema &f_schema, const char *loadpath) {
+void DBFile::Load (Schema &f_schema, const char *load_path) {
 }
 
 int DBFile::Open (const char *f_path) {
