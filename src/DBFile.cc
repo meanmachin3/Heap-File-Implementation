@@ -11,7 +11,7 @@
 
 DBFile::DBFile() {
     // Added to stop the program execution, so that we can debug using CLion's attach to process option.
-    std::getchar();
+     std::getchar();
 
     this->file = new File();
     this->page = new Page();
@@ -80,6 +80,16 @@ void DBFile::MoveFirst() {
 }
 
 int DBFile::GetNext(Record &record_to_fetch) {
+    if (this->page->GetFirst(&record_to_fetch)){
+        return 1;
+    }
+    if (++current_page < this->file->GetLength () - 1) {
+        this->file->GetPage (this->page, current_page);
+        this->page->GetFirst (&record_to_fetch);
+        return 1;
+
+    }
+    return 0; // Couldn't find record and has reached EOF
 }
 
 int DBFile::GetNext(Record &record_to_fetch, CNF &cnf, Record &literal) {

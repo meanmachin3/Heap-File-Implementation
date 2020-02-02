@@ -26,8 +26,14 @@ TEST(DBFile, Load) {
 }
 
 TEST(DBFile, Open) {
-    ASSERT_EQ(0, 0);
-    ASSERT_EQ(0, 0);
+    DBFile dbFile;
+
+    ASSERT_EQ(dbFile.Open(NULL), 0);
+    dbFile.Create("test.bin", heap, NULL);
+    dbFile.Open("test.bin");
+    FILE* f = fopen("test.bin", "r");
+
+    ASSERT_TRUE(f != NULL);
 }
 
 TEST(DBFile, MoveFirst) { 
@@ -46,8 +52,11 @@ TEST(DBFile, Add) {
 }
 
 TEST(DBFile, GetNext) { 
-    ASSERT_EQ(0, 0);
-    ASSERT_EQ(0, 0);   
+    DBFile dbfile;
+	// dbfile.Open();
+	dbfile.MoveFirst ();
+
+	Record temp;
 }
 
 int main(int argc, char **argv) {
