@@ -3,21 +3,31 @@
 #include <gtest/gtest.h>
 
 TEST(DBFile, Create) { 
-    DBFile dbfile;
-    ASSERT_EQ(dbfile.Create(NULL, heap, NULL), 0);
-    dbfile.Create("test.bin", heap, NULL);
+    DBFile dbFile;
+
+    ASSERT_EQ(dbFile.Create(NULL, heap, NULL), 0);
+
+    dbFile.Create("test.bin", heap, NULL);
     FILE* f = fopen("test.bin", "r");
+
     ASSERT_TRUE(f != NULL);
 }
 
-TEST(DBFile, Load) { 
+TEST(DBFile, Load) {
+    DBFile dbFile;
+
+    Schema *schema = new Schema("catalog", "nation");
+    const char* tbl_file_path = "../files/nation.tbl";
+
+    dbFile.Load(*(schema), tbl_file_path);
+
     ASSERT_EQ(0, 0);
     ASSERT_EQ(0, 0);   
 }
 
-TEST(DBFile, Open) { 
+TEST(DBFile, Open) {
     ASSERT_EQ(0, 0);
-    ASSERT_EQ(0, 0);   
+    ASSERT_EQ(0, 0);
 }
 
 TEST(DBFile, MoveFirst) { 
@@ -25,17 +35,15 @@ TEST(DBFile, MoveFirst) {
     ASSERT_EQ(0, 0);   
 }
 
-TEST(DBFile, Close) { 
-    ASSERT_EQ(0, 0);
-    ASSERT_EQ(0, 0);   
+TEST(DBFile, Close) {
+    DBFile dbFile;
+    ASSERT_EQ(dbFile.Close(), 1);
 }
-
 
 TEST(DBFile, Add) { 
     ASSERT_EQ(0, 0);
     ASSERT_EQ(0, 0);   
 }
-
 
 TEST(DBFile, GetNext) { 
     ASSERT_EQ(0, 0);

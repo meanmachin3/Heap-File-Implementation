@@ -13,7 +13,6 @@ relation *rel;
 
 // load from a tpch file
 void test1 () {
-
 	DBFile dbfile;
 	cout << " DBFile will be created at " << rel->path () << endl;
 	dbfile.Create (rel->path(), heap, NULL);
@@ -22,13 +21,12 @@ void test1 () {
 	sprintf (tbl_path, "%s%s.tbl", tpch_dir, rel->name()); 
 	cout << " tpch file will be loaded from " << tbl_path << endl;
 
-	dbfile.Load (*(rel->schema ()), tbl_path);
+	dbfile.Load (*(rel->schema()), tbl_path);
 	dbfile.Close ();
 }
 
 // sequential scan of a DBfile 
 void test2 () {
-
 	DBFile dbfile;
 	dbfile.Open (rel->path());
 	dbfile.MoveFirst ();
@@ -49,7 +47,6 @@ void test2 () {
 
 // scan of a DBfile and apply a filter predicate
 void test3 () {
-
 	cout << " Filter with CNF for : " << rel->name() << "\n";
 
 	CNF cnf; 
@@ -75,7 +72,6 @@ void test3 () {
 }
 
 int main () {
-
 	setup (catalog_path, dbfile_dir, tpch_dir);
 
 	void (*test) ();
