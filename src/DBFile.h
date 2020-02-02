@@ -11,10 +11,16 @@
 typedef enum {heap, sorted, tree} fType;
 
 class DBFile {
-	File* file;
-    Page* page;
-    off_t current_page;
-    Record* head;
+	File *file;
+
+	Page *read_page, *write_page;
+	off_t current_page_index, write_index;
+
+	Record *head;
+
+	ComparisonEngine *comparisonEngine;
+
+    int is_dirty_write, is_end_of_file;
 
 private:
     void WriteToFile();
