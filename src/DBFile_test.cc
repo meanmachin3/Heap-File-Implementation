@@ -13,51 +13,25 @@ TEST(DBFile, Create) {
     ASSERT_TRUE(f != NULL);
 }
 
-TEST(DBFile, Load) {
-    DBFile dbFile;
-
-    Schema *schema = new Schema("catalog", "nation");
-    const char* tbl_file_path = "../files/nation.tbl";
-
-    dbFile.Load(*(schema), tbl_file_path);
-
-    ASSERT_EQ(0, 0);
-    ASSERT_EQ(0, 0);   
-}
-
 TEST(DBFile, Open) {
     DBFile dbFile;
 
     ASSERT_EQ(dbFile.Open(NULL), 0);
     dbFile.Create("test.bin", heap, NULL);
-    dbFile.Open("test.bin");
+    ASSERT_EQ(dbFile.Open("test.bin"), 1);
     FILE* f = fopen("test.bin", "r");
 
     ASSERT_TRUE(f != NULL);
 }
 
-TEST(DBFile, MoveFirst) { 
-    ASSERT_EQ(0, 0);
-    ASSERT_EQ(0, 0);   
-}
-
 TEST(DBFile, Close) {
     DBFile dbFile;
-    ASSERT_EQ(dbFile.Close(), 1);
+    dbFile.Create("test.bin", heap, NULL);
+    dbFile.Open("test.bin");
+    ASSERT_EQ(dbFile.Close(), 0);
 }
 
-TEST(DBFile, Add) { 
-    ASSERT_EQ(0, 0);
-    ASSERT_EQ(0, 0);   
-}
 
-TEST(DBFile, GetNext) { 
-    DBFile dbfile;
-	// dbfile.Open();
-	dbfile.MoveFirst ();
-
-	Record temp;
-}
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);

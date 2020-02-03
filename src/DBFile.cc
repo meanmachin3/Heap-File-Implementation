@@ -11,21 +11,21 @@
 
 DBFile::DBFile() {
     // Added to stop the program execution, so that we can debug using CLion's attach to process option.
-    std::getchar();
+    // std::getchar();
 
-    this->file = new File();
-    this->read_page = new Page();
-    this->write_page = new Page();
-    this->head = new Record();
-    this->comparisonEngine = new ComparisonEngine();
+    file = new File();
+    read_page = new Page();
+    write_page = new Page();
+    head = new Record();
+    comparisonEngine = new ComparisonEngine();
 }
 
 DBFile::~DBFile() {
-    delete(this->file);
-    delete(this->read_page);
-    delete(this->write_page);
-    delete(this->head);
-    delete(this->comparisonEngine);
+    delete(file);
+    delete(read_page);
+    delete(write_page);
+    delete(head);
+    delete(comparisonEngine);
 }
 
 int DBFile::Create(const char *f_path, fType f_type, void *startup) {
@@ -33,7 +33,7 @@ int DBFile::Create(const char *f_path, fType f_type, void *startup) {
         return 0;
     }
 
-    this->file->Open(0, f_path);
+    file->Open(0, f_path);
 
     current_page_index = 1;
     write_index = 1;
@@ -45,10 +45,10 @@ int DBFile::Create(const char *f_path, fType f_type, void *startup) {
 
 int DBFile::Open(const char *f_path) {
     if (f_path == NULL || f_path[0] == '\0') {
-        std::cerr << "DBFile::Open - Invalid file path: " << f_path << std::endl;
+        // std::cerr << "DBFile::Open - Invalid file path: " << f_path << std::endl;
         return 0;
     }
-    this->file->Open(1, f_path);
+    file->Open(1, f_path);
 
     current_page_index = 1;
     is_end_of_file = 0;
@@ -57,12 +57,12 @@ int DBFile::Open(const char *f_path) {
 }
 
 int DBFile::Close() {
-    if(this->is_dirty_write) {
-        this->WriteToFile();
+    if(is_dirty_write) {
+        WriteToFile();
     }
 
     is_end_of_file = 1;
-    return this->file->Close();
+    return file->Close();
 }
 
 void DBFile::Load(Schema &schema, const char *tbl_file_path) {
@@ -71,7 +71,7 @@ void DBFile::Load(Schema &schema, const char *tbl_file_path) {
     if(f != NULL) {
         Record *temp_rec = new Record();
         while(temp_rec->SuckNextRecord(&schema, f)) {
-            this->Add(*(temp_rec));
+            Add(*(temp_rec));
         }
         delete temp_rec;
         fclose(f);
@@ -81,37 +81,37 @@ void DBFile::Load(Schema &schema, const char *tbl_file_path) {
 }
 
 void DBFile::Add(Record &record_to_add) {
-    this->is_dirty_write = 1;
+    is_dirty_write = 1;
 
-    if(this->write_page->GetCurrentSize() + record_to_add.GetSize() > PAGE_SIZE) {
-        this->WriteToFile();
+    if(write_page->GetCurrentSize() + record_to_add.GetSize() > PAGE_SIZE) {
+        WriteToFile();
     }
 
-    if(!this->write_page->Append(&record_to_add)) {
+    if(!write_page->Append(&record_to_add)) {
         std::cerr << "DBFile::AppendToPage - Error appending new record to the page." << std::endl;
     }
 }
 
 void DBFile::WriteToFile() {
-    this->file->AddPage(this->write_page, write_index++);
-    this->write_page->EmptyItOut();
+    file->AddPage(write_page, write_index++);
+    write_page->EmptyItOut();
 }
 
 void DBFile::MoveFirst() {
-    this->file->GetPage(this->read_page, 1);
-    this->read_page->GetFirst(this->head);
+    file->GetPage(read_page, 1);
+    read_page->GetFirst(head);
 }
 
 int DBFile::GetNext(Record &record_to_fetch) {
     if(!is_end_of_file) {
-        record_to_fetch.Copy(this->head);
-        if (this->read_page->GetFirst(&record_to_fetch)){
+        record_to_fetch.Copy(head);
+        if (read_page->GetFirst(&record_to_fetch)){
             return 1;
         }
 
-        if (++current_page_index < this->file->GetLength () - 1) {
-            this->file->GetPage(this->read_page, current_page_index);
-            this->read_page->GetFirst(this->head);
+        if (++current_page_index < file->GetLength () - 1) {
+            file->GetPage(read_page, current_page_index);
+            read_page->GetFirst(head);
             return 1;
         } else {
             is_end_of_file = 1;
@@ -122,11 +122,11 @@ int DBFile::GetNext(Record &record_to_fetch) {
 
 int DBFile::GetNext(Record &record_to_fetch, CNF &cnf, Record &literal) {
     while (true) {
-        int res = this->GetNext(record_to_fetch);
+        int res = GetNext(record_to_fetch);
         if(!res) return 0;
 
         // Returns 0 when all records matching CNF has been found.
-        res = this->comparisonEngine->Compare(&record_to_fetch, &literal, &cnf);
+        res = comparisonEngine->Compare(&record_to_fetch, &literal, &cnf);
         if(res) break;
     }
     return 1;
