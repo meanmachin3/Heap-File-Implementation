@@ -104,8 +104,8 @@ void DBFile::MoveFirst() {
 
 int DBFile::GetNext(Record &record_to_fetch) {
     if(!is_end_of_file) {
-        record_to_fetch.Copy(head);
-        if (read_page->GetFirst(&record_to_fetch)){
+        head = &record_to_fetch;
+        if (read_page->GetFirst(&record_to_fetch)) {
             return 1;
         }
         if (++read_index < file->GetLength () - 1) {

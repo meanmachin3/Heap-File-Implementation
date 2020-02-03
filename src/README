@@ -50,13 +50,13 @@ q1
 (r_name = 'EUROPE')
 
 q2 
-(r_name < 'middle east') AND
+(r_name < 'MIDDLE EAST') AND
 (r_regionkey > 1)
 
 q3 
 (n_regionkey = 3) AND
 (n_nationkey > 10) AND
-(n_name > 'japan')
+(n_name > 'JAPAN')
 
 q4 
 (s_suppkey < 10)
@@ -100,7 +100,7 @@ q11
 (l_shipdate < '1994-01-07') AND
 (l_discount > 0.05) AND
 (l_discount < 0.06) AND
-(l_quantity = 4) 
+(l_quantity = 4.0) 
 
 
 q12
