@@ -8,9 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - working-directory: ./gatsby
     - uses: actions/checkout@v2
-    - name: cd
-      run: cd src
     - name: make
       run: make gtest
     - name: gtest
