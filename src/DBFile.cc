@@ -35,10 +35,10 @@ int DBFile::Create(const char *f_path, fType f_type, void *startup) {
 
     file->Open(0, f_path);
 
-    current_page_index = 1;
+    read_index = 1;
     write_index = 1;
-    is_dirty_write = 0;
-    is_end_of_file = 1;
+    has_record_to_write = false;
+    is_end_of_file = true;
 
     return 1;
 }
@@ -50,18 +50,18 @@ int DBFile::Open(const char *f_path) {
     }
     file->Open(1, f_path);
 
-    current_page_index = 1;
-    is_end_of_file = 0;
+    read_index = 1;
+    is_end_of_file = false;
 
     return 1;
 }
 
 int DBFile::Close() {
-    if(is_dirty_write) {
+    if(has_record_to_write) {
         WriteToFile();
     }
 
-    is_end_of_file = 1;
+    is_end_of_file = true;
     return file->Close();
 }
 
@@ -81,7 +81,7 @@ void DBFile::Load(Schema &schema, const char *tbl_file_path) {
 }
 
 void DBFile::Add(Record &record_to_add) {
-    is_dirty_write = 1;
+    has_record_to_write = true;
 
     if(write_page->GetCurrentSize() + record_to_add.GetSize() > PAGE_SIZE) {
         WriteToFile();
@@ -104,20 +104,20 @@ void DBFile::MoveFirst() {
 
 int DBFile::GetNext(Record &record_to_fetch) {
     if(!is_end_of_file) {
-        record_to_fetch.Copy(head);
-        if (read_page->GetFirst(&record_to_fetch)){
+        head = &record_to_fetch;
+        if (read_page->GetFirst(&record_to_fetch)) {
             return 1;
         }
-
-        if (++current_page_index < file->GetLength () - 1) {
-            file->GetPage(read_page, current_page_index);
+        if (++read_index < file->GetLength () - 1) {
+            file->GetPage(read_page, read_index);
             read_page->GetFirst(head);
             return 1;
         } else {
             is_end_of_file = 1;
+            return 1;
         }
     }
-    return 0; // Couldn't find record and has reached EOF
+    return 0;
 }
 
 int DBFile::GetNext(Record &record_to_fetch, CNF &cnf, Record &literal) {
@@ -125,7 +125,6 @@ int DBFile::GetNext(Record &record_to_fetch, CNF &cnf, Record &literal) {
         int res = GetNext(record_to_fetch);
         if(!res) return 0;
 
-        // Returns 0 when all records matching CNF has been found.
         res = comparisonEngine->Compare(&record_to_fetch, &literal, &cnf);
         if(res) break;
     }
