@@ -8,9 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - working-directory: ./src
     - uses: actions/checkout@v2
     - name: make
+      working-directory: ./src
       run: make gtest
     - name: gtest
+      working-directory: ./src
       run: ./gtest
