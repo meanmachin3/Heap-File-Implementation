@@ -96,7 +96,7 @@ int main () {
 		cout << "\t 4. part \n";
 		cout << "\t 5. partsupp \n";
 		cout << "\t 6. orders \n";
-		cout << "\t 7. lineitem \n \t ";
+		cout << "\t 7. lineitem \n";
 		cout << "\t 8. supplier \n \t ";
 		cin >> findx;
 	}

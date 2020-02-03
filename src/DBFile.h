@@ -14,13 +14,13 @@ class DBFile {
 	File *file;
 
 	Page *read_page, *write_page;
-	off_t current_page_index, write_index;
+	off_t read_index, write_index;
 
 	Record *head;
 
 	ComparisonEngine *comparisonEngine;
 
-    int is_dirty_write, is_end_of_file;
+    bool has_record_to_write, is_end_of_file;
 
 private:
     void WriteToFile();
