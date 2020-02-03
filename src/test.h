@@ -73,7 +73,14 @@ void setup (const char *catalog_path, const char *dbfile_dir, const char *tpch_d
 }
 
 void cleanup () {
-	delete s, p, ps, n, li, r, o, c;
+	delete s;
+	delete p;
+	delete ps;
+	delete n;
+	delete li;
+	delete r;
+	delete o;
+	delete c;
 }
 
 #endif
