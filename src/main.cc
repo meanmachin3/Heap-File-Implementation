@@ -30,7 +30,7 @@ int main () {
 	myComparison.Print ();
 
 	// now open up the text file and start procesing it
-    FILE *tableFile = fopen ("../files/lineitem.tbl", "r");
+    FILE *tableFile = fopen ("/cise/tmp/dbi_sp11/DATA/10M/lineitem.tbl", "r");
 
     Record temp;
     Schema mySchema ("catalog", "lineitem");
