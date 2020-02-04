@@ -104,18 +104,16 @@ void DBFile::MoveFirst() {
 
 int DBFile::GetNext(Record &record_to_fetch) {
     if(!is_end_of_file) {
-        head = &record_to_fetch;
-        if (read_page->GetFirst(&record_to_fetch)) {
-            return 1;
+        record_to_fetch.Copy(head);
+        if (!read_page->GetFirst(head)) {
+            if (++read_index < file->GetLength () - 1) {
+                file->GetPage(read_page, read_index);
+                read_page->GetFirst(head);
+            } else {
+                is_end_of_file = true;
+            }
         }
-        if (++read_index < file->GetLength () - 1) {
-            file->GetPage(read_page, read_index);
-            read_page->GetFirst(head);
-            return 1;
-        } else {
-            is_end_of_file = 1;
-            return 1;
-        }
+        return 1;
     }
     return 0;
 }
