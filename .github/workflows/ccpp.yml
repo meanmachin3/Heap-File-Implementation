@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: action-gtest
+      uses: CyberZHG/github-action-gtest@0.0.1
     - uses: actions/checkout@v2
     - name: Build Dependencies (Linux)
       run: sudo apt-get update && sudo apt-get install -y bison flex libgtest-dev
